@@ -18,3 +18,17 @@ Red Hat Enterprise Linux 9 EC2 instance hosted on AWS.
 
 ```bash
 whoami
+2. Check the hostname
+hostname
+3. Identify the RHEL version
+cat /etc/redhat-release
+4. Check the kernel version
+uname -r
+5. Check system uptime
+uptime
+6. Inspect network interfaces
+ip addr
+7. Check filesystem usage
+df -h
+8. Check memory usage
+free -h
