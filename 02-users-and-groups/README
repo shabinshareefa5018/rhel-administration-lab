@@ -1,0 +1,83 @@
+# Lab 02 — Users & Groups
+
+## Objective
+
+Practice Linux user and group administration in RHEL 9, including creating users, managing groups, setting passwords, and verifying user access.
+
+## Environment
+
+- **Cloud:** AWS EC2
+- **OS:** Red Hat Enterprise Linux 9.8
+- **Access:** SSH
+- **User:** ec2-user
+
+## Tasks Performed
+
+### 1. Verify Current User
+
+```bash
+whoami
+id
+
+Verified the current user, UID, GID, and group memberships.
+
+2. Create a Group
+sudo groupadd devops
+getent group devops
+
+Created and verified the devops group.
+
+3. Create a User
+sudo useradd -m -s /bin/bash devuser
+id devuser
+getent passwd devuser
+
+Created devuser with a home directory and Bash login shell.
+
+4. Set User Password
+sudo passwd devuser
+
+Configured a password for devuser.
+
+5. Add User to Group
+sudo usermod -aG devops devuser
+id devuser
+
+Added devuser to the devops supplementary group.
+
+6. Verify Home Directory
+ls -ld /home/devuser
+
+Verified the user's home directory and ownership.
+
+7. Test User Switching
+su - devuser
+whoami
+pwd
+id
+exit
+
+Successfully switched to devuser, verified the login environment, and returned to ec2-user.
+
+Key Findings
+Linux users have unique UIDs and primary groups.
+Users can belong to supplementary groups.
+usermod -aG adds a user to a supplementary group.
+useradd -m creates a user's home directory.
+su can be used to switch between user accounts.
+Skills Demonstrated
+Linux user management
+Group management
+Password management
+User and group verification
+Linux account administration
+SSH-based RHEL administration
+AWS EC2 Linux administration
+Screenshots
+User and Group Management
+
+User Switching
+
+Outcome
+
+Successfully created and configured a Linux user and group, assigned group membership, verified the user's home directory, and tested user switching in RHEL 9.
