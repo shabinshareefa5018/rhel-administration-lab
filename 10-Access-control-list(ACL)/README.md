@@ -1,14 +1,19 @@
-# Lab 10 — Access Control Lists (ACL)
+# Lab 10 — ACL Access Control
 
 ## Objective
 
-Practice configuring and verifying Access Control Lists (ACLs) in RHEL 9 to provide different permissions to individual users.
+Practice using Access Control Lists (ACLs) in RHEL to provide different permissions to individual users.
 
-## Tasks Performed
+## Environment
 
-### 1. Created Users
+* RHEL 9
+* AWS EC2
+* Users: `alice`, `bob`
+* Directory: `/shared`
 
-Created two users for ACL testing:
+## Tasks
+
+### 1. Create Users
 
 ```bash
 sudo useradd alice
@@ -18,34 +23,34 @@ sudo useradd bob
 sudo passwd bob
 ```
 
-### 2. Created Shared Directory
+### 2. Create Shared Directory
 
 ```bash
 sudo mkdir /shared
 sudo chmod 770 /shared
 ```
 
-### 3. Configured User ACLs
+### 3. Configure ACL
 
-Granted Alice full access:
+Give Alice full access:
 
 ```bash
 sudo setfacl -m u:alice:rwx /shared
 ```
 
-Granted Bob read and execute access:
+Give Bob read and execute access:
 
 ```bash
 sudo setfacl -m u:bob:rx /shared
 ```
 
-### 4. Verified ACL Configuration
+### 4. Verify ACL
 
 ```bash
 getfacl /shared
 ```
 
-Result:
+Expected entries:
 
 ```text
 user::rwx
@@ -56,9 +61,9 @@ mask::rwx
 other::---
 ```
 
-### 5. Tested User Access
+### 5. Test Access
 
-Logged in as Alice and created a file successfully:
+As Alice:
 
 ```bash
 su - alice
@@ -66,7 +71,9 @@ cd /shared
 touch alice.txt
 ```
 
-Logged in as Bob and attempted to create a file:
+Alice successfully created the file.
+
+As Bob:
 
 ```bash
 su - bob
@@ -74,38 +81,31 @@ cd /shared
 touch bob.txt
 ```
 
-Result:
+Bob received:
 
 ```text
-touch: cannot touch 'bob.txt': Permission denied
+Permission denied
 ```
 
 ## Result
 
-* Alice can read, write and execute within `/shared`.
-* Bob can access and read the directory but cannot create files.
-* ACL configuration was verified using `getfacl`.
-* User-specific permissions were successfully tested.
+The ACL configuration worked as expected:
+
+* Alice can create files in `/shared`.
+* Bob can access the directory but cannot create files.
+* ACL entries were verified using `getfacl`.
 
 ## Commands Practiced
 
-```bash
-setfacl
-getfacl
-chmod
+```text
 useradd
 passwd
+chmod
+setfacl
+getfacl
 su
-ls -ld
 ```
 
 ## Key Learning
 
-ACLs allow administrators to provide **additional user-specific permissions** without changing the basic ownership and permission structure of a file or directory.
-
-## Environment
-
-* Red Hat Enterprise Linux 9
-* AWS EC2
-* Users: `alice`, `bob`
-* Directory: `/shared`
+ACLs provide additional user-specific permissions while keeping the normal Linux ownership and permission structure intact.
